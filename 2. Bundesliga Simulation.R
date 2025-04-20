@@ -52,29 +52,6 @@ spielplan_bisher <- spielplan_all[1:378,] %>%
   )
 
 ##### 1.3 Kicker: Spielstatistiken -----
-url <- "https://www.kicker.de/karlsruhe-gegen-elversberg-2024-bundesliga-4937102/spieldaten"
-page <- read_html(url)
-
-stat_bars <- page %>%
-  html_elements(".kick__data-grid--max-width .kick__stats-bar")
-
-clean_stats <- map_dfr(stat_bars, function(node) {
-  team1 <- node %>% html_element(".kick__stats-bar__value--opponent1") %>% html_text2()
-  stat  <- node %>% html_element(".kick__stats-bar__title") %>% html_text2()
-  team2 <- node %>% html_element(".kick__stats-bar__value--opponent2") %>% html_text2()
-  
-  tibble(Stat = stat, Team1 = team1, Team2 = team2)
-})
-
-
-clean_stats <- clean_stats %>%
-  mutate(across(c(Team1, Team2), ~ .x %>%
-                  str_replace_all(",", ".") %>%
-                  str_replace_all("%", "") %>%
-                  str_replace_all(" km", "") %>%
-                  as.numeric()))
-
-
 get_match_links <- function(matchday_url) {
   page <- read_html(matchday_url)
   
