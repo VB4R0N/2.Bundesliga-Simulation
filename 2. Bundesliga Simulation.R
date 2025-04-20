@@ -347,7 +347,7 @@ tabelle <- tabelle %>%
   )
 
 
-for (sim in 8684:n_sim) {
+for (sim in 1:n_sim) {
   table_sim <- tabelle %>%
     select(club, Spiele, G, U, V, F, A, Pkt.) %>%
     mutate(
